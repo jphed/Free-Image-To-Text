@@ -123,4 +123,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ---
 
-**Created by [Jorge Parra](https://github.com/jphed) using modern web technologies**
+**Created by [Jorge Parra](https://github.com/jphed)**

@@ -229,23 +229,41 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add floating animation to the main container
     const mainContainer = document.querySelector('.glass-effect');
     if (mainContainer) {
-        mainContainer.style.animation = 'float 6s ease-in-out infinite';
+        mainContainer.classList.add('animate-float');
     }
 
-    // Add CSS for floating animation
+    // Add optimized CSS for smooth hover effects
     const style = document.createElement('style');
     style.textContent = `
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-        
         .neon-border:hover {
             box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
         }
         
         .glass-effect:hover {
             background: rgba(255, 255, 255, 0.15);
+        }
+        
+        /* Performance optimizations */
+        .smooth-hover {
+            will-change: transform, box-shadow;
+        }
+        
+        .smooth-transition {
+            will-change: background-color, color;
+        }
+        
+        .smooth-scale {
+            will-change: transform;
+        }
+        
+        /* Reduce motion for users who prefer it */
+        @media (prefers-reduced-motion: reduce) {
+            .animate-float,
+            .animate-pulse-slow,
+            .animate-bounce-slow,
+            .animate-spin-slow {
+                animation: none;
+            }
         }
     `;
     document.head.appendChild(style);

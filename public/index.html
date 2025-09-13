@@ -10,15 +10,20 @@
             theme: {
                 extend: {
                     animation: {
-                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'bounce-slow': 'bounce 2s infinite',
-                        'spin-slow': 'spin 3s linear infinite',
-                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-slow': 'bounce 3s ease-in-out infinite',
+                        'spin-slow': 'spin 4s linear infinite',
+                        'glow': 'glow 3s ease-in-out infinite alternate',
+                        'float': 'float 6s ease-in-out infinite',
                     },
                     keyframes: {
                         glow: {
                             '0%': { boxShadow: '0 0 5px #3b82f6, 0 0 10px #3b82f6, 0 0 15px #3b82f6' },
                             '100%': { boxShadow: '0 0 10px #3b82f6, 0 0 20px #3b82f6, 0 0 30px #3b82f6' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-8px)' }
                         }
                     }
                 }
@@ -41,6 +46,33 @@
         }
         .text-glow {
             text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+        }
+        
+        /* Optimized animations for 60fps */
+        * {
+            will-change: auto;
+        }
+        
+        .smooth-hover {
+            transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), 
+                       box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .smooth-transition {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .smooth-scale {
+            transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Performance optimizations */
+        .glass-effect {
+            will-change: background-color;
+        }
+        
+        .neon-border {
+            will-change: box-shadow;
         }
     </style>
 </head>
@@ -72,7 +104,7 @@
                     <h2 class="text-2xl font-semibold text-white mb-6 text-center">Upload or Paste Image</h2>
                     
                     <!-- File Upload Area -->
-                    <div id="uploadArea" class="neon-border p-8 text-center cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-lg">
+                    <div id="uploadArea" class="neon-border p-8 text-center cursor-pointer smooth-hover hover:scale-105 hover:shadow-lg">
                         <div id="uploadContent">
                             <div class="text-6xl mb-4">📸</div>
                             <p class="text-white text-lg mb-2">Click to upload or drag & drop</p>
@@ -81,16 +113,16 @@
                         </div>
                         <div id="imagePreview" class="hidden">
                             <img id="previewImg" class="max-w-full max-h-64 mx-auto rounded-lg shadow-lg">
-                            <button id="removeImage" class="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
+                            <button id="removeImage" class="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 smooth-transition">
                                 Remove Image
                             </button>
                         </div>
                     </div>
 
                     <!-- Paste Area -->
-                    <div class="mt-6">
-                        <div class="text-center text-white mb-4">Or paste from clipboard:</div>
-                        <button id="pasteBtn" class="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    <div class="mt-6 text-center">
+                        <div class="text-white mb-4">Or paste from clipboard:</div>
+                        <button id="pasteBtn" class="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:from-purple-600 hover:to-pink-600 smooth-hover hover:scale-105 shadow-lg">
                             📋 Paste Image
                         </button>
                     </div>
@@ -98,7 +130,7 @@
 
                 <!-- Process Button -->
                 <div class="text-center mb-8">
-                    <button id="processBtn" class="px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-500 text-white text-lg font-semibold rounded-xl hover:from-blue-600 hover:to-cyan-600 transition-all duration-300 transform hover:scale-105 shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
+                    <button id="processBtn" class="px-8 py-4 bg-gradient-to-r from-blue-500 to-cyan-500 text-white text-lg font-semibold rounded-xl hover:from-blue-600 hover:to-cyan-600 smooth-hover hover:scale-105 shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none">
                         <span id="processText">🚀 Process Image</span>
                         <span id="loadingText" class="hidden">⏳ Processing...</span>
                     </button>
@@ -110,7 +142,7 @@
                     <div class="glass-effect rounded-xl p-6">
                         <div class="flex justify-between items-center mb-4">
                             <span class="text-green-400 font-medium">✅ OCR Complete</span>
-                            <button id="copyBtn" class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
+                            <button id="copyBtn" class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 smooth-transition">
                                 📋 Copy Text
                             </button>
                         </div>
@@ -133,6 +165,9 @@
         <!-- Footer -->
         <div class="text-center mt-12 text-blue-200">
             <p>Powered by Tesseract.js • Built with ❤️ using Node.js & Express</p>
+            <div class="mt-4">
+                <p class="text-sm text-blue-300">Created by <a href="https://github.com/jphed" target="_blank" class="text-cyan-400 hover:text-cyan-300 transition-colors duration-200 font-semibold">Jorge Parra</a></p>
+            </div>
         </div>
     </div>
 
